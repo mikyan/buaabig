@@ -113,6 +113,111 @@ class FabCar extends Contract {
         }
     }
 
+    async queryByName(ctx,newName) {
+        const startKey = 'CAR0';
+        const endKey = 'CAR999';
+
+        const iterator = await ctx.stub.getStateByRange(startKey, endKey);
+
+        const allResults = [];
+        while (true) {
+            const res = await iterator.next();
+
+            if (res.value && res.value.value.toString()) {
+                console.log(res.value.value.toString('utf8'));
+
+                const Key = res.value.key;
+                let Record;
+                try {
+                    Record = JSON.parse(res.value.value.toString('utf8'));
+                } catch (err) {
+                    console.log(err);
+                    Record = res.value.value.toString('utf8');
+                }
+                if(Record.name==newName)
+                    return JSON.stringify(Record);
+                //allResults.push({ Key, Record });
+            }
+            if (res.done) {
+                console.log('end of data');
+                await iterator.close();
+                console.info(allResults);
+                //return JSON.stringify(allResults);
+                return '没有这个人';
+            }
+        }
+    }
+
+    async queryByID(ctx,newID) {
+        const startKey = 'CAR0';
+        const endKey = 'CAR999';
+
+        const iterator = await ctx.stub.getStateByRange(startKey, endKey);
+
+        const allResults = [];
+        while (true) {
+            const res = await iterator.next();
+
+            if (res.value && res.value.value.toString()) {
+                console.log(res.value.value.toString('utf8'));
+
+                const Key = res.value.key;
+                let Record;
+                try {
+                    Record = JSON.parse(res.value.value.toString('utf8'));
+                } catch (err) {
+                    console.log(err);
+                    Record = res.value.value.toString('utf8');
+                }
+                if(Record.id==newID)
+                    return JSON.stringify(Record);
+                //allResults.push({ Key, Record });
+            }
+            if (res.done) {
+                //console.log('end of data');
+                await iterator.close();
+                console.info(allResults);
+                //return JSON.stringify(allResults);
+                return '没有这个人';
+            }
+        }
+    }
+
+    async queryByID(ctx,newPhone) {
+        const startKey = 'CAR0';
+        const endKey = 'CAR999';
+
+        const iterator = await ctx.stub.getStateByRange(startKey, endKey);
+
+        const allResults = [];
+        while (true) {
+            const res = await iterator.next();
+
+            if (res.value && res.value.value.toString()) {
+                console.log(res.value.value.toString('utf8'));
+
+                const Key = res.value.key;
+                let Record;
+                try {
+                    Record = JSON.parse(res.value.value.toString('utf8'));
+                } catch (err) {
+                    console.log(err);
+                    Record = res.value.value.toString('utf8');
+                }
+                if(Record.phone==newPhone)
+                    return JSON.stringify(Record);
+                //allResults.push({ Key, Record });
+            }
+            if (res.done) {
+                //console.log('end of data');
+                await iterator.close();
+                console.info(allResults);
+                //return JSON.stringify(allResults);
+                return '没有这个人';
+            }
+        }
+    }
+
 
     async changePersonName(ctx, personNumber, newName) {
         console.info('============= START : changeCarOwner ===========');
