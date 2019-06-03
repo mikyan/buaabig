@@ -81,6 +81,22 @@ class FabCar extends Contract {
         console.info('============= END : Create Car ===========');
     }
 
+    async createCarn(ctx, name, id, phone, email, address) {
+        console.info('============= START : Create Car ===========');
+        carNumebr=ctx.stub.endKey+1;
+        const car = {
+            name,
+            docType: 'person',
+            id,
+            phone,
+            email,
+            address,
+        };
+
+        await ctx.stub.putState(carNumber,Buffer.from(JSON.stringify(car)));
+        console.info('============= END : Create Car ===========');
+    }
+
     async queryAllCars(ctx) {
         const startKey = 'CAR0';
         const endKey = 'CAR999';

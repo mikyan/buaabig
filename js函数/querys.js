@@ -16,13 +16,13 @@ const ccp = JSON.parse(ccpJSON);
  * 一组用于查询的函数，queryAllPerson返回所有个人信息，queryByName按名称查询，queryByID按ID查询
  * queryByPhnoe 按电话号查询   
  */
-async function queryAllPerson() {
+module.exports.getAllPerson=async function() {
     try {
 
         // Create a new file system based wallet for managing identities.
         const walletPath = path.join(process.cwd(), 'wallet');
         const wallet = new FileSystemWallet(walletPath);
-        console.log(`Wallet path: ${walletPath}`);
+        //console.log(`Wallet path: ${walletPath}`);
 
         // Check to see if we've already enrolled the user.
         const userExists = await wallet.exists('user1');
@@ -47,7 +47,6 @@ async function queryAllPerson() {
         // queryAllCars transaction - requires no arguments, ex: ('queryAllCars')
         const result = await contract.evaluateTransaction('queryAllCars');
         return result.toString();
-        //console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
 
     } catch (error) {
         console.error(`Failed to evaluate transaction: ${error}`);

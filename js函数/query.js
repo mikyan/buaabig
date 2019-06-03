@@ -12,7 +12,7 @@ const ccpPath = path.resolve(__dirname, '..', '..', 'basic-network', 'connection
 const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
 const ccp = JSON.parse(ccpJSON);
 
-async function main() {
+module.exports.getAllPerson=async function main() {
     try {
 
         // Create a new file system based wallet for managing identities.

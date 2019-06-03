@@ -12,7 +12,7 @@ const ccpPath = path.resolve(__dirname, '..', '..', 'basic-network', 'connection
 const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
 const ccp = JSON.parse(ccpJSON);
 
-async function main() {
+async function addPerson() {
     try {
 
         // Create a new file system based wallet for managing identities.
@@ -41,7 +41,7 @@ async function main() {
         // Submit the specified transaction.
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
-        await contract.submitTransaction('createCar', 'CAR12', 'bucunzaideren', '99999999', '17596842365','167715527@qq.com','不存的的地方');
+        await contract.submitTransaction('createCarn', 'bucunzaideren', '99999999', '17596842365','167715527@qq.com','不存的的地方');
         console.log('Transaction has been submitted');
 
         // Disconnect from the gateway.
