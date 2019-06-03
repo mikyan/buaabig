@@ -8,10 +8,10 @@ server.on('request',function (request,response){
     response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
     var url=request.url;
     if(url==='/'){
-        query.getAllPerson().then(result => {
-            //console.log(result);
-            var str=result;
-            response.end(str);
+        query.getAllPersonArray().then(result => {
+            var array=JSON.parse(result);
+           console.log(array[0].name);
+           response.end(array[0].name);
         });
         //var str=query.getAllPerson();
         //console.log(str);
