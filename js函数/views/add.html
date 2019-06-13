@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>个人信息管理系统</title>
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="page-header">
+      <h1><a href="/">个人信息</a> <small><%= title %></small></h1>
+    </div>
+    <!-- 
+    表单提交三要素：
+      action 用来指定提交到那个请求地址
+      method 默认是get方式，当表单提交的时候，表单会把表单内的所有具有 name 属性的 input 元素的值 以 name=value&name=value 的格式放到 url 地址中，然后发出请求
+      如果指定 method 为 post 提交方式，
+        表单同样的将表单内所有具有name属性的input元素的值以
+            name=value&name=value  的格式 放到请求报问体 中，然后发出请求
+    如果要使用表单来上传文件，那么必须指定两点：
+      1. 表单提交方法必须为 post
+      2. 一定要 指定表单的 enctype 属性 为 multipart/form-data
+
+      上面两点缺一不可，否则后台收不到提交的文件数据
+
+      如果表单提交没有file类型的input元素，那么就不要手动的指定 enctype
+      如果有file类型的input元素，则必须指定enctype 属性 为 multipart/form-data
+     -->
+    <form action="/add" method="post" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="title">姓名</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="请输入姓名">
+      </div>
+      <!--{name: '杨乐平', id: '17373307',phone: '17548212625',email: 'zydylp@foxmail.com',address: '沙航一公寓B319',},-->
+      <div class="form-group">
+        <label for="artist">编号</label>
+        <input type="text" class="form-control" id="id" name="id" placeholder="请输入编号">
+      </div>
+      <div class="form-group">
+        <label for="artist">电话号码</label>
+        <input type="text" class="form-control" id="phone" name="phone" placeholder="请输入电话号码">
+      </div>
+      <div class="form-group">
+        <label for="artist">电子邮件</label>
+        <input type="text" class="form-control" id="email" name="email" placeholder="请输入电子邮件">
+      </div>
+      <div class="form-group">
+        <label for="artist">住址</label>
+        <input type="text" class="form-control" id="address" name="address" placeholder="请输入住址">
+      </div>
+      <button type="submit" class="btn btn-success">点击添加</button>
+    </form>
+  </div>
+</body>
+
+</html>

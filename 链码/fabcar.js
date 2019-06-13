@@ -65,7 +65,7 @@ class FabCar extends Contract {
         return carAsBytes.toString();
     }
 
-    async createCar(ctx, carNumber,name, id, phone, email, address) {
+    async createCar(ctx, carNumber, name, id, phone, email, address) {
         console.info('============= START : Create Car ===========');
 
         const car = {
@@ -83,7 +83,7 @@ class FabCar extends Contract {
 
     async createCarn(ctx, name, id, phone, email, address) {
         console.info('============= START : Create Car ===========');
-        carNumebr=ctx.stub.endKey+1;
+        carNumebr = ctx.stub.endKey + 1;
         const car = {
             name,
             docType: 'person',
@@ -93,13 +93,13 @@ class FabCar extends Contract {
             address,
         };
 
-        await ctx.stub.putState(carNumber,Buffer.from(JSON.stringify(car)));
+        await ctx.stub.putState(carNumber, Buffer.from(JSON.stringify(car)));
         console.info('============= END : Create Car ===========');
     }
 
     async queryAllCars(ctx) {
         const startKey = 'CAR0';
-        const endKey = 'CAR999';
+        const endKey = 'CAR9999999‬';
 
         const iterator = await ctx.stub.getStateByRange(startKey, endKey);
 
@@ -124,8 +124,8 @@ class FabCar extends Contract {
                 console.log('end of data');
                 await iterator.close();
                 console.info(allResults);
-                
-                return JSON.stringify(allResults);
+
+                return allResults;
             }
         }
     }
@@ -160,7 +160,8 @@ class FabCar extends Contract {
         }
     }
 
-    async queryByName(ctx,newName) {
+
+    async queryByName(ctx, newName) {
         const startKey = 'CAR0';
         const endKey = 'CAR999';
 
@@ -181,7 +182,7 @@ class FabCar extends Contract {
                     console.log(err);
                     Record = res.value.value.toString('utf8');
                 }
-                if(Record.name==newName)
+                if (Record.name == newName)
                     return JSON.stringify(Record);
                 //allResults.push({ Key, Record });
             }
@@ -195,7 +196,9 @@ class FabCar extends Contract {
         }
     }
 
-    async queryByID(ctx,newID) {
+
+
+    async queryByID(ctx, newID) {
         const startKey = 'CAR0';
         const endKey = 'CAR999';
 
@@ -216,7 +219,7 @@ class FabCar extends Contract {
                     console.log(err);
                     Record = res.value.value.toString('utf8');
                 }
-                if(Record.id==newID)
+                if (Record.id == newID)
                     return JSON.stringify(Record);
                 //allResults.push({ Key, Record });
             }
@@ -230,7 +233,7 @@ class FabCar extends Contract {
         }
     }
 
-    async queryByID(ctx,newPhone) {
+    async queryByID(ctx, newPhone) {
         const startKey = 'CAR0';
         const endKey = 'CAR999';
 
@@ -251,7 +254,7 @@ class FabCar extends Contract {
                     console.log(err);
                     Record = res.value.value.toString('utf8');
                 }
-                if(Record.phone==newPhone)
+                if (Record.phone == newPhone)
                     return JSON.stringify(Record);
                 //allResults.push({ Key, Record });
             }
@@ -341,8 +344,40 @@ class FabCar extends Contract {
     }
 
 
+    async changePerson(ctx, key, name, id, phone, email, address) {
+        console.info('============= START : changeCarOwner ===========');
+
+        const carAsBytes = await ctx.stub.getState(key); // get the car from chaincode state
+        if (!carAsBytes || carAsBytes.length === 0) {
+            throw new Error(`${key} does not exist`);
+        }
+        const car = JSON.parse(carAsBytes.toString());
+        car.id = id;
+        car.name=name;
+        car.phone=phone;
+        car.email=email;
+        car.address=address;
+
+        await ctx.stub.putState(key, Buffer.from(JSON.stringify(car)));
+        console.info('============= END : changeCarOwner ===========');
+
+    }
+
+    async deleteByNumber(ctx, personNumber) {
+        console.info('============= START : deleteperson ===========');
+        await ctx.stub.deleteState(personNumber);
+        console.info('============= END : changeCarOwner ===========');
+
+    }
+
 
 }
+
+
+
+
+
+
 
 module.exports = FabCar;
 

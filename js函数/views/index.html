@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>个人信息管理系统</title>
+  <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="page-header">
+      <h1><a href="/">个人信息管理系统</a> <small><%= title %></small></h1>
+    </div>
+    <a class="btn btn-success" href="/add">添加个人信息</a>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>key</th>
+          <th>电话号</th>
+          <th>姓名</th>
+          <th>编号</th>
+          <th>email</th>
+          <th>住址</th>
+          <th>操作</th>>
+        </tr>
+      </thead>
+      <tbody>
+        <% musicList.forEach(function(music){ %>
+          <tr>
+            <td><%= music.Key %></td>
+            <td><%= music.Record.phone %></td>
+            <td><%= music.Record.name %></td>
+            <td><%= music.Record.id %></td>
+            <td><%= music.Record.email %></td>
+            <td><%= music.Record.address%></td>
+            <td>
+              <a href="/edit?key=<%= music.Key %>">修改</a>
+              <a href="/remove?key=<%= music.Key %>">删除</a>
+            </td>
+          </tr>
+          <% }) %>
+      </tbody>
+    </table>
+  </div>
+</body>
+
+</html>
