@@ -2,18 +2,13 @@ var qstring = require('querystring')
 var formidable = require('formidable')
 var config = require('../config')
 var path = require('path')
+var fs = require('fs')
 var chainquery = require('../querys')
 var chainAdd = require('../adds.js')
 var chainDelete = require('../deletes.js')
-var chainChange=require('../changes')
+var chainChange = require('../changes')
 var ckey = ''
-var storage = [
-  { key: "0", name: '杨乐平', id: '17373307', phone: '17548212625', email: 'zydylp@foxmail.com', address: '沙航一公寓B319', },
-  { key: "1", name: '王磊', id: '17373322', phone: '17548212598', email: 'wanglei@foxmail.com', address: '沙航一公寓B320', },
-  { key: "2", name: '田科', id: '17373311', phone: '175482126798', email: 'tianke@foxmail.com', address: '沙航一公寓B321', },
-  { key: "3", name: '刘艺帆', id: '17373314', phone: '21456987521', email: '刘艺帆@foxmail.com', address: '沙航一公寓B321', },
-  { key: "4", name: '江尚朦', id: '17373319', phone: '78965412356', email: 'jiangshangmeng@foxmail.com', address: '沙航一公寓B321', },
-];
+
 var key = 4;
 exports.showIndex = function (req, res) {
   chainquery.getAllPersonArray().then(result => {
@@ -25,6 +20,13 @@ exports.showIndex = function (req, res) {
       musicList: jsonObj
     })
 
+  });
+
+  fs.readFile('keyNum', function (err, data) {
+    if (err) {
+      return console.error(err);
+    }
+    key = parseInt(data.toString());
   });
 
 }
@@ -86,8 +88,12 @@ exports.doAdd = function (req, res) {
 
     key = key + 1;
     chainAdd.addPerson("CAR" + key, name, id, phone, email, address);
+    fs.writeFile('keyNum', key, function (err) {
+      if (err) {
+        return console.error(err);
+      }
 
-
+    });
     res.writeHead(302, {
       'Location': 'http://119.28.235.250:3000'
     })
@@ -121,12 +127,7 @@ exports.doEdit = function (req, res) {
     if (err) {
       return res.end(err.message)
     }
-    /*var title = fields.title
-    var singer = fields.singer
-    var music = path.basename(files.music.path)
-    var poster = path.basename(files.poster.path)
-    var id = 0
-    */
+
     var name = fields.name;
     var id = fields.id;
     var phone = fields.phone;
@@ -142,33 +143,6 @@ exports.doEdit = function (req, res) {
     res.end()
   })
 
-  /*
-  console.log('doedit 被执行了')
-  var key = req.query.key
-    // 获取用户提交的数据
-  var data = ''
-  req.on('data', function(chunk) {
-    data += chunk
-  })
-  req.on('end', function() {
-    var postBody = qstring.parse(data)
-      // 根据id找到数据中该项的索引
-      var music_index = 0
-      storage.forEach(function (item, index) {
-        if (item.id == id) {
-          music_index = index
-        }
-      })
-      storage[music_index].title = postBody.title
-      storage[music_index].singer = postBody.singer
-      res.writeHead(302, {
-        'Location': 'http://119.28.235.250:3000'
-      })
-      res.end()
-  })
-*/
-
-  // 然后做修改操作
 }
 
 
@@ -178,17 +152,6 @@ exports.doRemove = function (req, res) {
   // 获取查询字符串中的 id
   var key = req.query.key
   chainDelete.deleteByNumber(key);
-  //var music_index = 0
-  // 通过该 id 找到数组中的该项
-  /*
-storage.forEach(function(item, index) {
-    if (item.id == id) {
-      music_index = index
-    }
-  })
-  // 然后进行真正的删除操作,根据索引下标进行删除
-storage.splice(music_index, 1)
-*/
   res.writeHead(302, {
     'Location': 'http://119.28.235.250:3000'
   })
