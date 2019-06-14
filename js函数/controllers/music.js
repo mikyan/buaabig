@@ -109,11 +109,13 @@ exports.showEdit = function (req, res) {
   chainquery.queryByKey(ckey).then(result => {
     //var array=[];
     var person = JSON.parse(result.toString());
-    console.log(person.toString());
+    var jsonPerson=JSON.parse(person.toString());
+   // console.log(person.name);
+ 
     res.render('edit', {
       title: '编辑个人信息',
-      person: person,
-      Key: ckey
+      person: jsonPerson,
+      Key:ckey
     })
   });
 
@@ -127,7 +129,7 @@ exports.doEdit = function (req, res) {
     if (err) {
       return res.end(err.message)
     }
-
+    
     var name = fields.name;
     var id = fields.id;
     var phone = fields.phone;
